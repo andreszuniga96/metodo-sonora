@@ -319,7 +319,7 @@ const ServicesSection = () => {
           {/* Card 1 - Francisco */}
           <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 flex flex-col hover:shadow-2xl transition-all duration-300">
             <div className="h-72 relative">
-              <img src={assets.serviceIndividual} alt="Francisco Lagos" className="w-full h-full object-cover object-top" />
+              <img src={assets.serviceIndividual} alt="Francisco Lagos" className="w-full h-full object-contain object-top" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               <div className="absolute bottom-6 left-6 text-white">
                 <div className="bg-teal-500 text-xs font-bold px-3 py-1 rounded-md inline-block mb-2">Terapia Individual</div>
@@ -344,7 +344,7 @@ const ServicesSection = () => {
           {/* Card 2 - Omar */}
           <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 flex flex-col hover:shadow-2xl transition-all duration-300">
             <div className="h-72 relative">
-              <img src={assets.serviceGroup} alt="Omar López" className="w-full h-full object-cover object-top" />
+              <img src={assets.serviceGroup} alt="Omar López" className="w-full h-full object-contain object-top" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               <div className="absolute bottom-6 left-6 text-white">
                 <div className="bg-purple-600 text-xs font-bold px-3 py-1 rounded-md inline-block mb-2">Grupal / Empresas</div>
@@ -388,7 +388,7 @@ const AboutSection = () => {
           </div>
           
           <div className="lg:w-7/12">
-            <span className="text-teal-600 font-bold tracking-widest text-sm uppercase mb-2 block">El Facilitador</span>
+            <span className="text-teal-600 font-bold tracking-widest text-sm uppercase mb-2 block">El Maestro</span>
             <h2 className="text-4xl font-serif font-bold text-slate-900 mb-2">Francisco Javier Lagos Luna</h2>
             <p className="text-xl text-slate-500 mb-6 font-light">Ingeniero Sanitario | Musicoterapeuta | Neuromúsico</p>
             
@@ -478,15 +478,13 @@ const ResourcesSection = () => {
         <div className="grid md:grid-cols-3 gap-8">
           {/* Card 1 */}
           <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow group cursor-pointer">
-            <div className="h-48 bg-slate-200 relative overflow-hidden">
-              <div className="absolute inset-0 bg-slate-800/20 group-hover:bg-transparent transition-colors"></div>
-              <Activity className="absolute bottom-4 right-4 text-white w-8 h-8 drop-shadow-lg" />
+            <div className="h-48 bg-slate-800 relative overflow-hidden flex items-center justify-center">
+              <Activity className="text-teal-400 w-16 h-16" />
             </div>
             <div className="p-6">
               <span className="text-xs font-bold text-teal-600 uppercase">Artículo Científico</span>
               <h3 className="text-xl font-bold text-slate-900 mt-2 mb-3 group-hover:text-teal-600 transition-colors">¿Qué es el ruido rosa?</h3>
               <p className="text-slate-500 text-sm mb-4">Descubre por qué esta frecuencia específica ayuda a conciliar el sueño profundo mejor que el silencio.</p>
-              
             </div>
           </div>
 
@@ -505,9 +503,8 @@ const ResourcesSection = () => {
 
           {/* Card 3 */}
           <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow group cursor-pointer">
-            <div className="h-48 bg-slate-200 relative overflow-hidden">
-               <div className="absolute inset-0 bg-slate-800/20 group-hover:bg-transparent transition-colors"></div>
-               <Wind className="absolute bottom-4 right-4 text-white w-8 h-8 drop-shadow-lg" />
+            <div className="h-48 bg-slate-800 relative overflow-hidden flex items-center justify-center">
+               <Wind className="text-teal-400 w-16 h-16" />
             </div>
             <div className="p-6">
               <span className="text-xs font-bold text-teal-600 uppercase">Guía Práctica</span>

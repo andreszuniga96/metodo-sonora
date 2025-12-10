@@ -52,7 +52,6 @@ const Navbar = () => {
     { name: 'Beneficios', href: '#beneficios' },
     { name: 'Servicios', href: '#servicios' },
     { name: 'Recursos', href: '#recursos' },
-    { name: 'Contacto', href: '#contacto' },
   ];
 
   return (

@@ -302,8 +302,7 @@ const ProcessAndBenefits = () => {
 
 // 5. SERVICIOS (CON FOTOS Y NOMBRES)
 const ServicesSection = () => {
-  const mpLinkIndividual = "https://mpago.li/1zYZUxM"; 
-  const mpLinkGrupal = "https://mpago.li/2T2VVQm";
+const mpLinkIndividual = "https://mpago.li/1zYZUxM"; 
 
   return (
     <section id="servicios" className="py-24 bg-slate-50 relative">
@@ -315,56 +314,51 @@ const ServicesSection = () => {
 
         <div className="grid lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
           
-          {/* Card 1 - Francisco */}
-          <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 flex flex-col hover:shadow-2xl transition-all duration-300">
-            <div className="h-72 relative">
-              <img src={assets.serviceIndividual} alt="Francisco Lagos" className="w-full h-full object-contain object-top" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-              <div className="absolute bottom-6 left-6 text-white">
-                <div className="bg-teal-500 text-xs font-bold px-3 py-1 rounded-md inline-block mb-2">Terapia Individual</div>
-                <h3 className="text-3xl font-serif font-bold">Francisco Lagos</h3>
-              </div>
-            </div>
-            <div className="p-8 flex flex-col flex-1">
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Sesión "Vivir es Vibrar"</h3>
-              <p className="text-slate-500 text-sm mb-6">Diagnóstico y tratamiento personalizado con Método Sonora completo.</p>
-              <ul className="space-y-3 mb-8 flex-1">
-                {["Sesión presencial de 60 minutos", "Diagnóstico de enfoque mental", "Plan de acción y micro-hábitos", "Seguimiento por WhatsApp"].map((item, i) => (
-                   <li key={i} className="flex items-start gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-teal-500 mt-0.5" /> <span>{item}</span></li>
-                ))}
-              </ul>
-              <div className="flex items-center justify-between pt-6 border-t border-slate-100">
-                <div><span className="text-3xl font-bold text-slate-900">$150.000</span> <span className="text-xs text-slate-400">COP</span></div>
-                <a href={mpLinkIndividual} target="_blank" rel="noreferrer" className="px-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-colors flex items-center gap-2">Pagar <DollarSign className="w-3 h-3" /></a>
-              </div>
+        {/* Card 1 - Francisco */}
+        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 flex flex-col hover:shadow-2xl transition-all duration-300">
+          <div className="h-72 relative">
+            <img src={assets.serviceIndividual} alt="Francisco Lagos" className="w-full h-full object-contain object-top" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            <div className="absolute bottom-6 left-6 text-white">
+              <div className="bg-teal-500 text-xs font-bold px-3 py-1 rounded-md inline-block mb-2">Terapia Individual</div>
+              <h3 className="text-3xl font-serif font-bold">Francisco Lagos</h3>
             </div>
           </div>
+          <div className="p-8 flex flex-col flex-1">
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Sesión "Vivir es Vibrar"</h3>
+            <p className="text-slate-500 text-sm mb-6">Diagnóstico y tratamiento personalizado con Método Sonora completo.</p>
+            <ul className="space-y-3 mb-8 flex-1">
+              {["Sesión presencial de 60 minutos", "Diagnóstico de enfoque mental", "Plan de acción y micro-hábitos", "Seguimiento por WhatsApp"].map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-teal-500 mt-0.5" /> <span>{item}</span></li>
+              ))}
+            </ul>
+            
+            {/* CAMBIO: Se usa "justify-center" para centrar los botones */}
+            <div className="flex items-center justify-center pt-6 border-t border-slate-100 gap-4"> 
+              
+              {/* Botón de WhatsApp "Cotiza Aquí" (Centrado 1) */}
+              <a 
+                href="https://wa.me/573206586727?text=Hola%20Francisco,%20me%20interesa%20agendar%20una%20sesión%20individual." 
+                target="_blank" 
+                rel="noreferrer" 
+                className="px-6 py-3 bg-green-500 text-white rounded-xl font-bold text-sm hover:bg-green-600 transition-colors flex items-center gap-2"
+              >
+                Cotiza Aquí <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-4 h-4" />
+              </a>
 
-          {/* Card 2 - Omar */}
-          <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 flex flex-col hover:shadow-2xl transition-all duration-300">
-            <div className="h-72 relative">
-              <img src={assets.serviceGroup} alt="Omar López" className="w-full h-full object-contain object-top" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-              <div className="absolute bottom-6 left-6 text-white">
-                <div className="bg-purple-600 text-xs font-bold px-3 py-1 rounded-md inline-block mb-2">Grupal / Empresas</div>
-                <h3 className="text-3xl font-serif font-bold">Omar López</h3>
-              </div>
-            </div>
-            <div className="p-8 flex flex-col flex-1">
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Inmersión Sonora Colectiva</h3>
-              <p className="text-slate-500 text-sm mb-6">Dinámicas grupales para reducir el estrés laboral o familiar.</p>
-              <ul className="space-y-3 mb-8 flex-1">
-                {["Círculos de sonido sanador", "Integración y trabajo en equipo", "Para empresas, familias o grupos", "Duración: 90 minutos"].map((item, i) => (
-                   <li key={i} className="flex items-start gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-purple-500 mt-0.5" /> <span>{item}</span></li>
-                ))}
-              </ul>
-              <div className="flex items-center justify-between pt-6 border-t border-slate-100">
-                <div><span className="text-3xl font-bold text-slate-900">$80.000</span> <span className="text-xs text-slate-400">persona</span></div>
-                <a href={mpLinkGrupal} target="_blank" rel="noreferrer" className="px-6 py-3 bg-purple-900 text-white rounded-xl font-bold text-sm hover:bg-purple-800 transition-colors flex items-center gap-2">Pagar <DollarSign className="w-3 h-3" /></a>
-              </div>
+              {/* Botón "Pagar" (Centrado 2) */}
+              <a 
+                href={mpLinkIndividual} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="px-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-colors flex items-center gap-2"
+              >
+                Pagar <DollarSign className="w-3 h-3" />
+              </a>
             </div>
           </div>
-
+        </div>
+          
         </div>
       </div>
     </section>
@@ -581,24 +575,7 @@ const ContactSection = () => {
                 </div>
                 <ArrowRight className="ml-auto w-5 h-5 text-slate-300 group-hover:text-teal-500 transition-colors" />
               </a>
-
-              {/* Botón Omar */}
-              <a 
-                href="https://wa.me/573117762785?text=Hola%20Omar,%20me%20interesa%20información%20sobre%20eventos%20grupales." 
-                target="_blank" 
-                rel="noreferrer"
-                className="bg-white hover:bg-purple-50 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all group flex items-center gap-6 cursor-pointer transform hover:-translate-y-1"
-              >
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center shrink-0">
-                  <MessageCircle className="w-8 h-8 text-purple-600" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-purple-600 uppercase mb-1">Grupal / Empresas</p>
-                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-purple-700 transition-colors">Chat con Omar</h3>
-                  <p className="text-slate-500 text-sm">+57 311 776 2785</p>
-                </div>
-                <ArrowRight className="ml-auto w-5 h-5 text-slate-300 group-hover:text-purple-500 transition-colors" />
-              </a>
+    
 
             </div>
           </div>

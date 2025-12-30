@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion'; 
-import { 
-  Play, Wind, Eye, Brain, Activity, ArrowRight, Menu, X, ChevronDown, 
-  Music, Users, Calendar, MapPin, Check, DollarSign, MessageCircle, 
-  Star, Quote, Globe, Headphones, HelpCircle, Zap, Waves, Mail, 
-  Smartphone, BookOpen, Video, ArrowUpRight, Download, Phone 
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Play, Wind, Eye, Brain, Activity, ArrowRight, Menu, X, ChevronDown,
+  Music, Users, MapPin, Check, DollarSign, MessageCircle,
+  Star, Globe, Headphones, Zap, Waves, Mail
 } from 'lucide-react';
+
+// IMPORTACIÓN DEL COMPONENTE NUEVO
+// Asegúrate de que ProtocoloReinicio.jsx esté en la misma carpeta
+import ProtocoloReinicio from './ProtocoloReinicio';
 
 // --- ACTIVOS ---
 const assets = {
@@ -35,7 +38,8 @@ const staggerContainer = {
 
 // --- COMPONENTES UI ---
 
-const Navbar = () => {
+// NAVBAR ACTUALIZADO: Recibe la función onOpenProtocol
+const Navbar = ({ onOpenProtocol }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -48,11 +52,20 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Inicio', href: '#inicio' },
     { name: 'Concepto', href: '#que-es' },
+    // Nuevo elemento de acción para el Protocolo
+    { name: 'Protocolo Online', action: true, highlight: true }, 
     { name: 'Método', href: '#el-metodo' },
     { name: 'Beneficios', href: '#beneficios' },
     { name: 'Servicios', href: '#servicios' },
     { name: 'Recursos', href: '#recursos' },
   ];
+
+  const handleNavClick = (item) => {
+    if (item.action) {
+      onOpenProtocol();
+    }
+    setMobileMenuOpen(false);
+  };
 
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-slate-900/95 backdrop-blur-md py-3 shadow-xl border-b border-slate-800' : 'bg-gradient-to-b from-black/80 to-transparent py-6'}`}>
@@ -64,10 +77,21 @@ const Navbar = () => {
 
         <div className="hidden xl:flex gap-6 items-center">
           {navLinks.map((item) => (
-            <a key={item.name} href={item.href} className="text-xs font-bold text-slate-300 hover:text-white transition-colors uppercase tracking-widest relative group">
-              {item.name}
-              <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
-            </a>
+             item.action ? (
+                <button 
+                  key={item.name} 
+                  onClick={() => handleNavClick(item)}
+                  className="text-xs font-bold text-teal-400 hover:text-teal-300 transition-colors uppercase tracking-widest relative group flex items-center gap-1 border border-teal-500/30 px-3 py-1 rounded-full hover:bg-teal-500/10"
+                >
+                  <Play className="w-3 h-3 fill-current" />
+                  {item.name}
+                </button>
+             ) : (
+                <a key={item.name} href={item.href} className="text-xs font-bold text-slate-300 hover:text-white transition-colors uppercase tracking-widest relative group">
+                  {item.name}
+                  <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+             )
           ))}
           <a href="#contacto" className="px-5 py-2 bg-teal-500 text-white text-xs font-bold rounded-full hover:bg-teal-600 transition-all shadow-[0_0_15px_rgba(20,184,166,0.4)] hover:shadow-[0_0_25px_rgba(20,184,166,0.6)] transform hover:-translate-y-0.5 flex items-center gap-2">
             <MessageCircle className="w-3 h-3" />
@@ -82,7 +106,7 @@ const Navbar = () => {
 
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -90,9 +114,19 @@ const Navbar = () => {
           >
             <div className="flex flex-col p-6 gap-4">
               {navLinks.map((item) => (
-                <a key={item.name} href={item.href} className="text-slate-300 hover:text-white py-3 border-b border-slate-800 font-medium text-center" onClick={() => setMobileMenuOpen(false)}>
-                  {item.name}
-                </a>
+                item.action ? (
+                    <button 
+                        key={item.name} 
+                        onClick={() => handleNavClick(item)}
+                        className="text-teal-400 hover:text-teal-300 py-3 border-b border-slate-800 font-bold text-center flex items-center justify-center gap-2"
+                    >
+                        <Play className="w-3 h-3" /> {item.name}
+                    </button>
+                ) : (
+                    <a key={item.name} href={item.href} className="text-slate-300 hover:text-white py-3 border-b border-slate-800 font-medium text-center" onClick={() => setMobileMenuOpen(false)}>
+                    {item.name}
+                    </a>
+                )
               ))}
             </div>
           </motion.div>
@@ -103,7 +137,7 @@ const Navbar = () => {
 };
 
 // 1. INICIO (HERO SECTION)
-const HeroSection = () => {
+const HeroSection = ({ onOpenProtocol }) => {
   return (
     <section id="inicio" className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-slate-900">
       <div className="absolute inset-0 z-0">
@@ -120,28 +154,28 @@ const HeroSection = () => {
           </span>
         </motion.div>
 
-        <motion.h1 
+        <motion.h1
           className="text-5xl md:text-7xl lg:text-9xl font-serif font-bold text-white mb-8 leading-none drop-shadow-2xl"
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4 }}
         >
           Vivir es <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">Vibrar</span>
         </motion.h1>
 
-        <motion.p 
+        <motion.p
           className="text-lg md:text-2xl text-slate-200 font-light max-w-3xl mx-auto mb-10 leading-relaxed drop-shadow-md"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.6 }}
         >
           Reprograma tu mente y cuerpo a través del sonido. Transforma el estrés en energía creativa y la dispersión en enfoque absoluto.
         </motion.p>
 
-        <motion.div 
+        <motion.div
           className="flex flex-col sm:flex-row gap-6 justify-center items-center"
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <a href="#que-es" className="w-full sm:w-auto px-8 py-4 bg-teal-500 text-white font-bold rounded-full hover:bg-teal-400 transition-all flex items-center justify-center gap-3 group shadow-[0_0_20px_rgba(20,184,166,0.3)]">
+          <button onClick={onOpenProtocol} className="w-full sm:w-auto px-8 py-4 bg-teal-500 text-white font-bold rounded-full hover:bg-teal-400 transition-all flex items-center justify-center gap-3 group shadow-[0_0_20px_rgba(20,184,166,0.3)]">
             <Play className="w-5 h-5 fill-current group-hover:scale-110 transition-transform" />
-            Empezar el Viaje
-          </a>
+            Prueba Interactiva
+          </button>
           <a href="#contacto" className="w-full sm:w-auto px-8 py-4 border border-white/30 text-white font-bold rounded-full hover:bg-white/10 backdrop-blur-sm transition-all shadow-lg flex items-center justify-center gap-2">
             Contactar Experto
             <ArrowRight className="w-5 h-5" />
@@ -149,7 +183,7 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      <motion.div 
+      <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 cursor-pointer"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
@@ -161,6 +195,87 @@ const HeroSection = () => {
   );
 };
 
+// NUEVA SECCIÓN: ENGANCHE / LEAD MAGNET
+const LeadMagnetSection = ({ onOpenProtocol }) => {
+    return (
+      <section className="py-20 bg-gradient-to-br from-slate-900 via-teal-950 to-slate-900 text-white relative overflow-hidden border-b border-slate-800">
+         {/* Background decoration */}
+        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        
+        <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-12">
+          <div className="md:w-3/5">
+              <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+                  <span className="inline-block py-1 px-3 rounded bg-teal-500/20 text-teal-300 text-xs font-bold tracking-widest mb-4 border border-teal-500/30">
+                      HERRAMIENTA GRATUITA
+                  </span>
+                  <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 leading-tight">
+                      ¿Tu cerebro pide espacio? <br/>
+                      <span className="text-slate-400 text-2xl md:text-4xl block mt-2 font-light">No es falta de disciplina, es sobrecarga.</span>
+                  </h2>
+                  <div className="space-y-2 mb-8 text-lg text-slate-300">
+                    <p className="flex items-center gap-2"><Wind className="w-4 h-4 text-teal-500"/> ¿Lees y no entiendes?</p>
+                    <p className="flex items-center gap-2"><Wind className="w-4 h-4 text-teal-500"/> ¿Respondes en automático?</p>
+                    <p className="flex items-center gap-2"><Wind className="w-4 h-4 text-teal-500"/> ¿Te distraes sin darte cuenta?</p>
+                  </div>
+                  <p className="text-slate-400 mb-8 italic max-w-xl border-l-2 border-teal-500 pl-4">
+                      "El reinicio sensorial no te hace perder tiempo. Te devuelve la mente que necesitas para avanzar."
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                      <button 
+                          onClick={onOpenProtocol}
+                          className="px-8 py-4 bg-teal-500 text-slate-900 font-bold rounded-full hover:bg-teal-400 transition-all shadow-[0_0_20px_rgba(20,184,166,0.3)] flex items-center gap-3 group transform hover:scale-105"
+                      >
+                          <Play className="w-5 h-5 fill-current" />
+                          Iniciar Protocolo de Reinicio (3 Min)
+                      </button>
+                  </div>
+              </motion.div>
+          </div>
+          
+          {/* Visual Card Preview */}
+          <div className="md:w-2/5 relative">
+              <motion.div 
+                  whileHover={{ scale: 1.02 }}
+                  className="bg-slate-800/80 backdrop-blur-md p-6 rounded-2xl border border-slate-700 shadow-2xl cursor-pointer"
+                  onClick={onOpenProtocol}
+              >
+                  <div className="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+                      <span className="text-teal-400 font-mono text-xs">REINICIO CONSCIENTE v1.0</span>
+                      <div className="flex gap-1">
+                          <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                          <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                          <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                      </div>
+                  </div>
+                  <div className="space-y-4">
+                      <div className="h-2 bg-slate-700 rounded-full w-full overflow-hidden">
+                          <div className="h-full bg-teal-500 w-2/3"></div>
+                      </div>
+                      <div className="flex gap-4 items-center text-slate-300">
+                          <Brain className="w-8 h-8 text-teal-500" />
+                          <div>
+                              <p className="font-bold text-sm">Fase 3: Coherencia</p>
+                              <p className="text-xs opacity-60">Regulación de la amígdala</p>
+                          </div>
+                      </div>
+                      <div className="p-3 bg-slate-900/50 rounded-lg border border-slate-700/50 text-center">
+                        <p className="text-2xl font-mono text-white">04 : 01 : 06</p>
+                        <p className="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Patrón Respiratorio</p>
+                      </div>
+                  </div>
+                  
+                  <div className="mt-6 flex justify-center">
+                    <span className="text-xs text-teal-400 font-bold uppercase tracking-widest flex items-center gap-2">
+                        Click para iniciar <ArrowRight className="w-3 h-3" />
+                    </span>
+                  </div>
+              </motion.div>
+          </div>
+        </div>
+      </section>
+    );
+  };
+
 // 2. ¿QUÉ ES EL MÉTODO SONORA?
 const ConceptSection = () => {
   return (
@@ -168,7 +283,7 @@ const ConceptSection = () => {
       <div className="absolute top-0 right-0 w-1/2 h-full bg-slate-50 skew-x-12 translate-x-32 z-0"></div>
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16">
-          <motion.div 
+          <motion.div
             className="lg:w-1/2"
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
           >
@@ -189,7 +304,7 @@ const ConceptSection = () => {
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="lg:w-1/2 grid grid-cols-2 gap-4"
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
           >
@@ -238,7 +353,7 @@ const ProcessAndBenefits = () => {
             { num: "03", title: "Resonancia", desc: "Ejercicios de voz y respiración para anclar el estado de calma.", icon: <Wind /> },
             { num: "04", title: "Integración", desc: "Plan de micro-hábitos para mantener los resultados en la rutina.", icon: <Brain /> },
           ].map((step, i) => (
-            <motion.div 
+            <motion.div
               key={i}
               className="relative p-6 border border-slate-700 rounded-2xl bg-slate-800/50 hover:bg-slate-800 transition-all group"
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
@@ -280,7 +395,7 @@ const ProcessAndBenefits = () => {
               { title: "Bienestar Físico", desc: "Menor tensión muscular y mejora en la presión arterial.", icon: <Users className="text-green-400"/> },
               { title: "Autoconocimiento", desc: "Conecta con tu propósito a través del silencio interior.", icon: <Eye className="text-teal-400"/> },
             ].map((benefit, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 className="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition-colors flex gap-4 items-start border border-slate-700/50"
                 whileHover={{ y: -5 }}
@@ -302,7 +417,7 @@ const ProcessAndBenefits = () => {
 
 // 5. SERVICIOS (CON FOTOS Y NOMBRES)
 const ServicesSection = () => {
-const mpLinkIndividual = "https://mpago.li/1zYZUxM"; 
+const mpLinkIndividual = "https://mpago.li/1zYZUxM";
 
   return (
     <section id="servicios" className="py-24 bg-slate-50 relative">
@@ -333,24 +448,21 @@ const mpLinkIndividual = "https://mpago.li/1zYZUxM";
               ))}
             </ul>
             
-            {/* CAMBIO: Se usa "justify-center" para centrar los botones */}
-            <div className="flex items-center justify-center pt-6 border-t border-slate-100 gap-4"> 
+            <div className="flex items-center justify-center pt-6 border-t border-slate-100 gap-4">
               
-              {/* Botón de WhatsApp "Cotiza Aquí" (Centrado 1) */}
-              <a 
-                href="https://wa.me/573206586727?text=Hola%20Francisco,%20me%20interesa%20agendar%20una%20sesión%20individual." 
-                target="_blank" 
-                rel="noreferrer" 
+              <a
+                href="https://wa.me/573206586727?text=Hola%20Francisco,%20me%20interesa%20agendar%20una%20sesión%20individual."
+                target="_blank"
+                rel="noreferrer"
                 className="px-6 py-3 bg-green-500 text-white rounded-xl font-bold text-sm hover:bg-green-600 transition-colors flex items-center gap-2"
               >
                 Cotiza Aquí <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" className="w-4 h-4" />
               </a>
 
-              {/* Botón "Pagar" (Centrado 2) */}
-              <a 
-                href={mpLinkIndividual} 
-                target="_blank" 
-                rel="noreferrer" 
+              <a
+                href={mpLinkIndividual}
+                target="_blank"
+                rel="noreferrer"
                 className="px-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-colors flex items-center gap-2"
               >
                 Pagar <DollarSign className="w-3 h-3" />
@@ -373,9 +485,9 @@ const AboutSection = () => {
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="lg:w-5/12 relative">
             <div className="absolute inset-0 bg-teal-500 rounded-3xl transform rotate-6 opacity-20"></div>
-            <img 
-              src={assets.franciscoBio} 
-              alt="Francisco Lagos Luna" 
+            <img
+              src={assets.franciscoBio}
+              alt="Francisco Lagos Luna"
               className="relative rounded-3xl shadow-2xl w-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
             />
           </div>
@@ -432,8 +544,8 @@ const TestimonialsSection = () => {
         <h2 className="text-3xl font-serif font-bold text-center mb-16">Lo que dicen nuestros pacientes</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((t, i) => (
-            <motion.div 
-              key={i} 
+            <motion.div
+              key={i}
               className="bg-teal-800/50 p-8 rounded-2xl border border-teal-700/50"
               whileHover={{ scale: 1.05 }}
             >
@@ -559,9 +671,9 @@ const ContactSection = () => {
             <div className="flex flex-col gap-6">
               
               {/* Botón Francisco */}
-              <a 
-                href="https://wa.me/573206586727?text=Hola%20Francisco,%20me%20interesa%20agendar%20una%20sesión%20individual." 
-                target="_blank" 
+              <a
+                href="https://wa.me/573206586727?text=Hola%20Francisco,%20me%20interesa%20agendar%20una%20sesión%20individual."
+                target="_blank"
                 rel="noreferrer"
                 className="bg-white hover:bg-teal-50 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all group flex items-center gap-6 cursor-pointer transform hover:-translate-y-1"
               >
@@ -575,7 +687,7 @@ const ContactSection = () => {
                 </div>
                 <ArrowRight className="ml-auto w-5 h-5 text-slate-300 group-hover:text-teal-500 transition-colors" />
               </a>
-    
+   
 
             </div>
           </div>
@@ -643,11 +755,28 @@ const Footer = () => (
 
 // APP PRINCIPAL
 const App = () => {
+  const [showProtocol, setShowProtocol] = useState(false);
+
   return (
     <div className="font-sans antialiased selection:bg-teal-500 selection:text-white bg-slate-50 scroll-smooth">
-      <Navbar />
-      <HeroSection />
+      <Navbar onOpenProtocol={() => setShowProtocol(true)} />
+      
+      {/* Modal del Protocolo (Superpuesto) */}
+      <AnimatePresence>
+        {showProtocol && (
+            <ProtocoloReinicio 
+                isOpen={showProtocol} 
+                onClose={() => setShowProtocol(false)} 
+            />
+        )}
+      </AnimatePresence>
+
+      <HeroSection onOpenProtocol={() => setShowProtocol(true)} />
       <ConceptSection />
+      
+      {/* SECCIÓN NUEVA: LEAD MAGNET (Entre Concepto y Metodología) */}
+      <LeadMagnetSection onOpenProtocol={() => setShowProtocol(true)} />
+      
       <ProcessAndBenefits />
       <ServicesSection />
       <AboutSection />

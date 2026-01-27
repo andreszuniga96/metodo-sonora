@@ -53,7 +53,7 @@ const Navbar = ({ onOpenProtocol }) => {
     { name: 'Inicio', href: '#inicio' },
     { name: 'Concepto', href: '#que-es' },
     // Nuevo elemento de acción para el Protocolo
-    { name: 'Protocolo Online', action: true, highlight: true }, 
+    { name: 'Reinicio Conciente', action: true, highlight: true }, 
     { name: 'Método', href: '#el-metodo' },
     { name: 'Beneficios', href: '#beneficios' },
     { name: 'Servicios', href: '#servicios' },
@@ -174,7 +174,7 @@ const HeroSection = ({ onOpenProtocol }) => {
         >
           <button onClick={onOpenProtocol} className="w-full sm:w-auto px-8 py-4 bg-teal-500 text-white font-bold rounded-full hover:bg-teal-400 transition-all flex items-center justify-center gap-3 group shadow-[0_0_20px_rgba(20,184,166,0.3)]">
             <Play className="w-5 h-5 fill-current group-hover:scale-110 transition-transform" />
-            Prueba Interactiva
+            Reinicio Conciente
           </button>
           <a href="#contacto" className="w-full sm:w-auto px-8 py-4 border border-white/30 text-white font-bold rounded-full hover:bg-white/10 backdrop-blur-sm transition-all shadow-lg flex items-center justify-center gap-2">
             Contactar Experto
@@ -226,7 +226,7 @@ const LeadMagnetSection = ({ onOpenProtocol }) => {
                           className="px-8 py-4 bg-teal-500 text-slate-900 font-bold rounded-full hover:bg-teal-400 transition-all shadow-[0_0_20px_rgba(20,184,166,0.3)] flex items-center gap-3 group transform hover:scale-105"
                       >
                           <Play className="w-5 h-5 fill-current" />
-                          Iniciar Protocolo de Reinicio (3 Min)
+                          Iniciar Reinicio Consciente (3 Min)
                       </button>
                   </div>
               </motion.div>

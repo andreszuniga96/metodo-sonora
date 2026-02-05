@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Play, X, Wind, Music, Brain, Activity, 
   Headphones, Zap, Lock, Maximize2, Minimize2, 
   ArrowRight, CheckCircle, List, Sunrise, AlertCircle, Calendar, Volume2
 } from 'lucide-react';
+
+// --- ACTIVOS DE AUDIO ---
+// Asegúrate de que estos archivos estén en tu carpeta public/assets o impórtalos según tu estructura
+const AUDIO_VOICE_GUIDE = "/assets/VOZ OFF LANDING123.wav";
+const AUDIO_BG_MUSIC = "/assets/Centro de Energía 2 [ujlS3siTguQ].mp3";
 
 // --- CONFIGURACIÓN DE FASES (REINICIO CONSCIENTE) ---
 const protocolPhases = [
@@ -15,8 +20,8 @@ const protocolPhases = [
     duration: 20, 
     color: "from-rose-950 via-slate-950 to-black",
     instruction: "PAUSA TOTAL",
-    action: "Detén lo que estás haciendo. Suelta el mouse. No luches.", // [cite: 37, 39]
-    mantra: "Reconozco que mi mente necesita espacio.", // [cite: 41]
+    action: "Detén lo que estás haciendo. Suelta el mouse. No luches.", 
+    mantra: "Reconozco que mi mente necesita espacio.", 
     icon: <Zap className="w-8 h-8" />
   },
   {
@@ -26,20 +31,20 @@ const protocolPhases = [
     duration: 40,
     color: "from-amber-950 via-slate-950 to-black",
     instruction: "SENSACIÓN CORPORAL",
-    action: "Elige una sensación: Pies en el suelo o aire en la nariz.", // [cite: 50-52]
-    mantra: "No pienses la sensación, solo siéntela.", // [cite: 57-58]
+    action: "Elige una sensación: Pies en el suelo o aire en la nariz.", 
+    mantra: "No pienses la sensación, solo siéntela.", 
     icon: <Activity className="w-8 h-8" />
   },
   {
     id: 3,
     title: "PASO 3: RESPIRACIÓN", 
     name: "Respiración Reguladora",
-    // Patrón 4-1-6 (11 seg) x 9 veces = 99 segundos [cite: 68-70]
+    // Patrón 4-1-6 (11 seg) x 9 veces = 99 segundos
     duration: 99, 
     color: "from-teal-950 via-slate-950 to-black",
     instruction: "REGULACIÓN",
-    action: "Sigue el ritmo: Inhala (4) • Sostén (1) • Exhala (6)", // [cite: 68-70]
-    mantra: "Estoy creando espacio en mi mente.", // [cite: 71]
+    action: "Sigue el ritmo: Inhala (4) • Sostén (1) • Exhala (6)", 
+    mantra: "Estoy creando espacio en mi mente.", 
     isBreathing: true,
     icon: <Wind className="w-8 h-8" />
   },
@@ -47,11 +52,11 @@ const protocolPhases = [
     id: 4,
     title: "PASO 4: ESCUCHA", 
     name: "Atención Plena",
-    duration: 45, // Ajustado para transición suave
+    duration: 45, 
     color: "from-indigo-950 via-slate-950 to-black",
     instruction: "SOLO ESCUCHA", 
-    action: "Deja de controlar la respiración. La música te acompaña.", // [cite: 159-161]
-    mantra: "Si aparece un pensamiento, vuelve al sonido.", // [cite: 161-162]
+    action: "Deja de controlar la respiración. La música te acompaña.", 
+    mantra: "Si aparece un pensamiento, vuelve al sonido.", 
     icon: <Music className="w-8 h-8" />
   },
   {
@@ -61,8 +66,8 @@ const protocolPhases = [
     duration: 30,
     color: "from-violet-950 via-slate-950 to-black",
     instruction: "CONEXIÓN FINAL",
-    action: "Lleva una mano al pecho. Imagina una burbuja a tu alrededor.", // [cite: 79, 84]
-    mantra: "Mi cerebro está disponible. Ahora puedo enfocarme.", // [cite: 81-82]
+    action: "Lleva una mano al pecho. Imagina una burbuja a tu alrededor.", 
+    mantra: "Mi cerebro está disponible. Ahora puedo enfocarme.", 
     icon: <Brain className="w-8 h-8" />
   }
 ];
@@ -81,7 +86,6 @@ const IntroVideo = ({ onComplete }) => {
             <p className="absolute bottom-8 text-slate-500 font-mono text-xs uppercase tracking-widest">Video Introductorio (5 min)</p>
         </div>
         
-        {/* Overlay Título Video */}
         <div className="absolute top-0 left-0 w-full p-6 bg-gradient-to-b from-black/80 to-transparent text-left">
             <h3 className="text-white font-bold text-lg">Instrucciones del Método Sonora</h3>
             <p className="text-slate-400 text-sm">Por Francisco Lagos</p>
@@ -105,7 +109,6 @@ const IntroVideo = ({ onComplete }) => {
 };
 
 // --- COMPONENTE: LECTURA RÁPIDA (FASE 0) ---
-// [cite: 111-120]
 const PreReading = ({ onComplete }) => {
   return (
     <motion.div 
@@ -113,7 +116,6 @@ const PreReading = ({ onComplete }) => {
       className="max-w-3xl mx-auto px-6 h-full flex flex-col justify-center"
     >
       <div className="bg-slate-900/60 p-8 md:p-12 rounded-3xl border border-white/10 backdrop-blur-md relative overflow-hidden">
-        {/* Decoración de fondo */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         
         <div className="relative z-10">
@@ -155,7 +157,6 @@ const PreReading = ({ onComplete }) => {
 };
 
 // --- COMPONENTE: GUÍA RESPIRATORIA 4-1-6 ---
-// [cite: 68-70] Inhala 4, Retén 1, Exhala 6
 const BreathGuide416 = () => {
   const [text, setText] = useState("Inhala");
   
@@ -167,13 +168,12 @@ const BreathGuide416 = () => {
       setText("Exhala (6s)"); await new Promise(r => setTimeout(r, 6000));
     };
     cycle();
-    const interval = setInterval(cycle, 11000); // 11s loop
+    const interval = setInterval(cycle, 11000); 
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="relative flex flex-col items-center justify-center py-8 w-full">
-      {/* Círculo que respira */}
       <motion.div 
         className="relative w-64 h-64 border border-teal-500/30 rounded-full flex items-center justify-center bg-teal-900/20 backdrop-blur-sm"
         animate={{
@@ -182,7 +182,7 @@ const BreathGuide416 = () => {
         }}
         transition={{
             duration: 11,
-            times: [0, 0.36, 0.45, 1], // 4/11=0.36, 5/11=0.45
+            times: [0, 0.36, 0.45, 1], 
             repeat: Infinity,
             ease: "easeInOut"
         }}
@@ -205,7 +205,6 @@ const BreathGuide416 = () => {
 };
 
 // --- COMPONENTE: FRASE DE PODER ---
-// [cite: 173-174]
 const PowerPhrase = ({ onNext }) => {
   return (
     <motion.div 
@@ -213,19 +212,11 @@ const PowerPhrase = ({ onNext }) => {
        className="flex flex-col items-center justify-center h-full text-center px-6 relative"
     >
         <div className="absolute inset-0 bg-teal-500/10 blur-[100px] rounded-full pointer-events-none"></div>
-        
-        <p className="text-teal-400 font-bold tracking-[0.4em] uppercase mb-8 text-sm border-b border-teal-500/30 pb-2">
-            Frase de Poder
-        </p>
-        
+        <p className="text-teal-400 font-bold tracking-[0.4em] uppercase mb-8 text-sm border-b border-teal-500/30 pb-2">Frase de Poder</p>
         <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif text-white font-bold leading-tight max-w-5xl mb-12 drop-shadow-2xl">
             "El enfoque nace cuando creo espacio, y dejo que todo fluya en conexión."
         </h2>
-        
-        <button 
-            onClick={onNext} 
-            className="group flex items-center gap-3 text-slate-400 hover:text-white text-sm uppercase tracking-widest transition-colors"
-        >
+        <button onClick={onNext} className="group flex items-center gap-3 text-slate-400 hover:text-white text-sm uppercase tracking-widest transition-colors">
             Ver Recomendaciones <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform"/>
         </button>
     </motion.div>
@@ -233,7 +224,6 @@ const PowerPhrase = ({ onNext }) => {
 };
 
 // --- COMPONENTE: USO DIARIO RECOMENDADO ---
-// [cite: 197-207]
 const DailyUse = ({ onNext }) => {
   return (
     <motion.div 
@@ -243,9 +233,7 @@ const DailyUse = ({ onNext }) => {
         <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
             <div>
                 <h2 className="text-4xl font-serif font-bold text-white mb-6">Uso Diario Recomendado</h2>
-                <p className="text-slate-400 mb-8 text-lg">
-                    Para cultivar la disciplina y la claridad, integra este reinicio en estos momentos clave del día:
-                </p>
+                <p className="text-slate-400 mb-8 text-lg">Para cultivar la disciplina y la claridad, integra este reinicio en estos momentos clave del día:</p>
                 <div className="space-y-4">
                     <div className="flex items-center gap-4 p-5 bg-slate-800/50 rounded-2xl border border-white/5 hover:bg-slate-800 transition-colors">
                         <div className="p-3 bg-teal-500/10 rounded-lg text-teal-400"><Sunrise size={24} /></div>
@@ -274,13 +262,8 @@ const DailyUse = ({ onNext }) => {
             <div className="bg-gradient-to-br from-teal-900 to-slate-900 p-10 rounded-[2.5rem] text-center flex flex-col justify-center h-full shadow-2xl border border-teal-500/20">
                 <Calendar className="w-16 h-16 text-teal-400 mx-auto mb-6 opacity-80" />
                 <h3 className="text-3xl font-bold text-white mb-4">¿Listo para el siguiente nivel?</h3>
-                <p className="text-teal-100/80 mb-10 text-sm leading-relaxed">
-                    Has completado el reinicio básico. Desbloquea el plan profesional de 4 semanas para transformar tu mente.
-                </p>
-                <button 
-                    onClick={onNext}
-                    className="w-full py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-teal-50 transition-all shadow-lg flex items-center justify-center gap-2 transform hover:scale-105"
-                >
+                <p className="text-teal-100/80 mb-10 text-sm leading-relaxed">Has completado el reinicio básico. Desbloquea el plan profesional de 4 semanas para transformar tu mente.</p>
+                <button onClick={onNext} className="w-full py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-teal-50 transition-all shadow-lg flex items-center justify-center gap-2 transform hover:scale-105">
                     VER MI REPORTE FINAL <ArrowRight size={18}/>
                 </button>
             </div>
@@ -298,20 +281,66 @@ const ProtocoloReinicio = ({ isOpen, onClose }) => {
   const [isActive, setIsActive] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
 
+  // REFERENCIAS DE AUDIO
+  const voiceAudio = useRef(null);
+  const bgAudio = useRef(null);
+
   const phase = protocolPhases[activePhaseIndex];
 
-  // TIMER Y AVANCE DE FASES
+  // INICIALIZACIÓN DE AUDIOS
+  useEffect(() => {
+    if (isOpen) {
+        voiceAudio.current = new Audio(AUDIO_VOICE_GUIDE);
+        bgAudio.current = new Audio(AUDIO_BG_MUSIC);
+        
+        bgAudio.current.loop = true;
+        bgAudio.current.volume = 0.2; // Fondo suave
+        voiceAudio.current.volume = 1.0; // Voz clara
+    }
+    
+    // Limpieza al cerrar
+    return () => {
+        if (voiceAudio.current) {
+            voiceAudio.current.pause();
+            voiceAudio.current.currentTime = 0;
+        }
+        if (bgAudio.current) {
+            bgAudio.current.pause();
+            bgAudio.current.currentTime = 0;
+        }
+    };
+  }, [isOpen]);
+
+  // CONTROL DE REPRODUCCIÓN POR ESTADOS
+  useEffect(() => {
+    if (!voiceAudio.current || !bgAudio.current) return;
+
+    if (viewState === 'preread') {
+        // Inicia la voz guía en el diagnóstico
+        voiceAudio.current.play().catch(e => console.log("User interaction required for audio"));
+    } 
+    else if (viewState === 'protocol') {
+        // Inicia la música de fondo en el ejercicio
+        bgAudio.current.play().catch(e => console.log("User interaction required for audio"));
+    } 
+    else if (viewState === 'offer') {
+        // Detener música al finalizar
+        bgAudio.current.pause();
+        // La voz puede seguir si no ha terminado, o pausarla si es deseado
+    }
+  }, [viewState]);
+
+  // TIMER Y AVANCE
   useEffect(() => {
     let interval = null;
     if (isActive && viewState === 'protocol' && timeLeft > 0) {
       interval = setInterval(() => setTimeLeft((p) => p - 1), 1000);
     } else if (timeLeft === 0 && isActive && viewState === 'protocol') {
       if (activePhaseIndex < protocolPhases.length - 1) {
-        // Pausa breve antes de la siguiente fase para mejor UX
         setTimeout(() => handlePhaseChange(activePhaseIndex + 1), 500);
       } else {
         setIsActive(false);
-        setViewState('powerphrase'); // Ir a la frase de poder
+        setViewState('powerphrase'); 
       }
     }
     return () => clearInterval(interval);
@@ -344,10 +373,10 @@ const ProtocoloReinicio = ({ isOpen, onClose }) => {
     >
       <div className={`relative w-full h-full bg-black text-white flex flex-col overflow-hidden`}>
         
-        {/* FONDO ANIMADO SEGÚN LA FASE */}
+        {/* FONDO DINÁMICO */}
         <div className={`absolute inset-0 bg-gradient-to-br ${viewState === 'protocol' ? phase.color : 'from-slate-900 to-black'} transition-colors duration-[1500ms] opacity-60 pointer-events-none`}></div>
         
-        {/* HEADER DE NAVEGACIÓN */}
+        {/* HEADER */}
         <div className="relative z-50 flex justify-between items-center p-6 border-b border-white/5 bg-black/40 backdrop-blur-md">
             <div className="flex items-center gap-4">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${viewState === 'protocol' ? 'bg-teal-500/20 text-teal-400' : 'bg-slate-800 text-slate-400'}`}>
@@ -375,7 +404,7 @@ const ProtocoloReinicio = ({ isOpen, onClose }) => {
             </div>
         </div>
 
-        {/* CONTENIDO PRINCIPAL */}
+        {/* BODY */}
         <div className="relative z-40 flex-1 flex flex-col items-center justify-center p-4 overflow-y-auto overflow-x-hidden">
             <AnimatePresence mode='wait'>
                 
@@ -384,7 +413,7 @@ const ProtocoloReinicio = ({ isOpen, onClose }) => {
                     <IntroVideo key="video" onComplete={() => setViewState('preread')} />
                 )}
 
-                {/* 2. LECTURA PREVIA (FASE 0) */}
+                {/* 2. LECTURA PREVIA (Activa Voz) */}
                 {viewState === 'preread' && (
                     <PreReading key="preread" onComplete={() => {
                         setViewState('protocol');
@@ -392,19 +421,19 @@ const ProtocoloReinicio = ({ isOpen, onClose }) => {
                     }} />
                 )}
 
-                {/* 3. PROTOCOLO ACTIVO (FASES 1-5) */}
+                {/* 3. PROTOCOLO (Activa Música Fondo) */}
                 {viewState === 'protocol' && (
                     <motion.div 
                         key="protocol"
                         initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
                         className="w-full max-w-5xl mx-auto text-center flex flex-col items-center"
                     >
-                        {/* Indicador de Audio (Visual) */}
+                        {/* Indicador de Audio */}
                         <div className="mb-8 flex items-center gap-2 text-teal-400/60 text-xs font-mono tracking-widest uppercase animate-pulse">
-                             <Volume2 size={14} /> Reproduciendo Audio Frecuencia {activePhaseIndex + 1}
+                             <Volume2 size={14} /> Reproduciendo Entorno Sonoro
                         </div>
 
-                        {/* INSTRUCCIÓN DE ACCIÓN */}
+                        {/* Instrucción de Acción */}
                         <motion.div 
                             key={phase.action}
                             initial={{ y: -10, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
@@ -415,7 +444,7 @@ const ProtocoloReinicio = ({ isOpen, onClose }) => {
                             </p>
                         </motion.div>
 
-                        {/* CONTENIDO VISUAL PRINCIPAL */}
+                        {/* Visual Principal */}
                         {phase.isBreathing ? (
                             <BreathGuide416 />
                         ) : (
@@ -429,7 +458,7 @@ const ProtocoloReinicio = ({ isOpen, onClose }) => {
                             </div>
                         )}
 
-                        {/* MANTRA CARD */}
+                        {/* Mantra */}
                         <motion.div 
                             key={phase.mantra}
                             initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}
@@ -463,14 +492,12 @@ const ProtocoloReinicio = ({ isOpen, onClose }) => {
                             <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-900/40 text-green-400 rounded-full text-xs font-bold tracking-widest border border-green-500/30">
                                 <CheckCircle size={16} /> REINICIO COMPLETADO CON ÉXITO
                             </div>
-                            
                             <div>
                                 <h2 className="text-5xl font-serif font-bold text-white mb-4">Tu mente está lista.</h2>
                                 <p className="text-slate-300 text-lg leading-relaxed">
                                     Acabas de experimentar el poder del sonido. Has recuperado tu claridad y reducido tu cortisol. Ahora tienes 2 caminos:
                                 </p>
                             </div>
-
                             <div className="space-y-4">
                                 <div className="p-5 rounded-2xl border border-white/5 bg-white/5 opacity-60 hover:opacity-100 transition-opacity">
                                     <p className="font-bold text-white mb-1">Opción A: Rutina Habitual</p>
@@ -487,23 +514,14 @@ const ProtocoloReinicio = ({ isOpen, onClose }) => {
                         </div>
 
                         <div className="bg-slate-900 p-10 rounded-[2.5rem] border border-slate-700 shadow-2xl text-center space-y-8 relative">
-                            <div className="absolute top-0 right-0 bg-teal-500 text-slate-900 text-xs font-bold px-4 py-2 rounded-bl-2xl rounded-tr-2xl">
-                                OFERTA ESPECIAL
-                            </div>
-                            
+                            <div className="absolute top-0 right-0 bg-teal-500 text-slate-900 text-xs font-bold px-4 py-2 rounded-bl-2xl rounded-tr-2xl">OFERTA ESPECIAL</div>
                             <Lock className="w-16 h-16 text-teal-400 mx-auto" strokeWidth={1.5} />
-                            
                             <div>
                                 <h3 className="text-3xl font-bold text-white mb-2">Plan Completo</h3>
                                 <p className="text-slate-400">Acceso inmediato a todas las sesiones y guías.</p>
                             </div>
-
                             <div className="space-y-4">
-                                <a 
-                                    href="#servicios" 
-                                    onClick={onClose}
-                                    className="block w-full py-5 bg-teal-500 hover:bg-teal-400 text-slate-900 font-bold rounded-2xl transition-all shadow-[0_0_25px_rgba(20,184,166,0.4)] hover:shadow-[0_0_40px_rgba(20,184,166,0.6)] text-lg"
-                                >
+                                <a href="#servicios" onClick={onClose} className="block w-full py-5 bg-teal-500 hover:bg-teal-400 text-slate-900 font-bold rounded-2xl transition-all shadow-[0_0_25px_rgba(20,184,166,0.4)] hover:shadow-[0_0_40px_rgba(20,184,166,0.6)] text-lg">
                                     OBTENER ACCESO AHORA
                                 </a>
                                 <button onClick={onClose} className="text-slate-500 hover:text-white text-sm font-medium underline decoration-slate-700 underline-offset-4">
@@ -513,7 +531,6 @@ const ProtocoloReinicio = ({ isOpen, onClose }) => {
                         </div>
                     </motion.div>
                 )}
-
             </AnimatePresence>
         </div>
 
@@ -526,8 +543,7 @@ const ProtocoloReinicio = ({ isOpen, onClose }) => {
                            viewState === 'preread' ? '10%' :
                            viewState === 'protocol' ? `${10 + ((activePhaseIndex + 1) / protocolPhases.length) * 70}%` :
                            viewState === 'powerphrase' ? '85%' :
-                           viewState === 'daily' ? '90%' :
-                           '100%' 
+                           viewState === 'daily' ? '90%' : '100%' 
                 }}
                 transition={{ duration: 0.8, ease: "circOut" }}
             />

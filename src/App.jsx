@@ -406,7 +406,7 @@ const ServicesSection = () => {
                 <a href="https://wa.me/573206586727?text=Hola,%20quiero%20más%20info%20sobre%20la%20Sesión%20Individual." target="_blank" rel="noreferrer" className="flex-1 py-3 bg-green-600 text-white rounded-xl font-bold text-center text-sm hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
                   <MessageCircle size={18}/> Agendar
                 </a>
-                <a href="https://mpago.li/1zYZUxM" target="_blank" rel="noreferrer" className="flex-1 py-3 bg-slate-900 text-white rounded-xl font-bold text-center text-sm hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+                <a href="https://mpago.li/18KXYhp" target="_blank" rel="noreferrer" className="flex-1 py-3 bg-slate-900 text-white rounded-xl font-bold text-center text-sm hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
                   <DollarSign size={18}/> Pagar
                 </a>
               </div>
@@ -448,11 +448,11 @@ const ServicesSection = () => {
               </div>
               
               <div className="flex gap-4 mt-auto">
-                <a href="https://wa.me/573206586727?text=Hola,%20me%20interesa%20el%20Protocolo%20de%204%20Semanas." target="_blank" rel="noreferrer" className="flex-1 py-3 bg-green-600 text-white rounded-xl font-bold text-center text-sm hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
-                  <MessageCircle size={18}/> Aplicar
+                <a href="https://wa.me/573206586727?text=Hola,%20quiero%20más%20info%20sobre%20la%20Sesión%20Individual." target="_blank" rel="noreferrer" className="flex-1 py-3 bg-green-600 text-white rounded-xl font-bold text-center text-sm hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
+                  <MessageCircle size={18}/> Agendar
                 </a>
-                <a href="#" className="flex-1 py-3 bg-teal-600 text-white rounded-xl font-bold text-center text-sm hover:bg-teal-500 transition-colors flex items-center justify-center gap-2">
-                  <DollarSign size={18}/> Invertir
+                <a href="https://mpago.li/18KXYhp" target="_blank" rel="noreferrer" className="flex-1 py-3 bg-teal-600 text-white rounded-xl font-bold text-center text-sm hover:bg-teal-500 transition-colors flex items-center justify-center gap-2">
+                  <DollarSign size={18}/> Pagar
                 </a>
               </div>
             </div>
